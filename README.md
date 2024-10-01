@@ -1,7 +1,7 @@
 
 Breve descrição do grupo
 
-* Turno: [L]02
+* Turno: L02
 * Grupo: 02
 * Alunos:
     - Eduardo Castro Portugal Ferreira up202206628
