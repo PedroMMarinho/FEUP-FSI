@@ -2,14 +2,23 @@
 
 ## Reconhecimento
 
-- **Versão do wordpress**: Pensamento inicial, verificar no código html da página web informação pertinente (ctrl+shift+i). Foi encontrado através da keyword "generator" as versões do WordPress e do plugin Woocommerce sendo elas 5.8.1 e 5.7.1, respectivamente.![htmlGenerator png](resources/CTF3/htmlGenerator.png)
+- **Versão do wordpress**: Pensamento inicial, verificar no código html da página web informação pertinente (ctrl+shift+i). Foi encontrado através da keyword "generator" as versões do WordPress e do plugin Woocommerce sendo elas 5.8.1 e 5.7.1, respectivamente.
+
+<div align="center">
+  <img src="resources/CTF3/htmlGenerator.png" alt="HTML_Generator" height="300">
+</div>
  
 - **Plugins instalados e versões dos mesmos**: Tal como foi referido no tópico acima foi encontrado o plugin Woocommerce através da inspeção do website. Sentimos que estavamos num bom caminho, no entanto, ainda nos faltava algo. Foi daí que ao explorar melhor as janelas da web encontramos na tab "Additional information" do item "WordPress Hosting" toda a informação acerca das versões!
-![versions png](resources/CTF3/versions.png)
+
+<div align="center">
+  <img src="resources/CTF3/versions.png" alt="Versions"  height="300">
+</div>
   
 - **Possíveis utilizadores e nomes de utilizadores**: No que toca aos utilizadores deste sistema, deparamo-nos com dois comentários, o comentário do user "Orval Sanford" e o do "admin". Com base nesta informação, deduzimos que talvez seria possível infiltramo-nos na conta de um destes users.
-![users png](resources/CTF3/users.png)
 
+<div align="center">
+  <img src="resources/CTF3/users.png" alt="Versions"  height="300">
+</div>
 
 ## Pesquisa por Vulnerabilidades
 
@@ -37,11 +46,15 @@
 
 **CVE-2022-21661**
 
-![CVE-2022-21661 exploit](resources/CTF3/CVE-2022-21661_exploit.png)
+<div align="center">
+  <img src="resources/CTF3/CVE-2022-21661_exploit.png" alt="CVE-2022-21661_exploit" >
+</div>
 
 **CVE-2023-2732**
 
-<video controls src="resources/CTF3/CVE-2023-2732_exploit.mp4" title="Title"></video>
+<div align="center">
+  <img src="resources/CTF3/CVE-2023-2732_exploit.gif" alt="HTML Generator GIF">
+</div>
 
 - Apenas o exploit da vulnerabilidade CVE-2023-2732 funcionou. Este permitiu identificar o admin como um utilizador válido e aceder indevidamente à sua conta. Assim conseguimos aceder a todas a funcionalidades previamente inacessiveis, nomeadamente às mensagens privadas, onde encontra-mos a flag final deste CTF.
 
