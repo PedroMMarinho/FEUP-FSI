@@ -5,13 +5,13 @@
 
 - **Vulnerabilidade**: CVE-2019-14287 é uma falha no comando sudo que dá acesso priveligiado a utilizadores indevidos.[^1]
 
-- **Sistemas Afetados**: Sistemas baseados em Linux/Unix com versões anteriores à 1.8.28.
+- **Sistemas Afetados**: Sistemas baseados em Linux/Unix com versões anteriores à 1.8.28.[^2]
 
 ## Catalogação 
 
-- **Reporting**: Falha reportada em 2019, por Joe Vennix, um investigador de segurança da empresa Apple, durante uma análise de segurança.
+- **Reporting**: Falha reportada em 2019, por Joe Vennix, um investigador de segurança da empresa Apple, durante uma análise de segurança.[^4]
 
-- **Gravidade**: Alto nível de gravidade, com pontuação CVSS de 9.0 e 8.8, segundo cvedetails.
+- **Gravidade**: Alto nível de gravidade, com pontuação CVSS de 9.0 e 8.8, segundo cvedetails.[^3]
 
 - **Bug Bounty**: Não há registos públicos de pagamento por bug bounty.
 
@@ -36,3 +36,9 @@
 ## Referências
 
 [^1]:[CVE-2019-14287 - CVEdetails](https://www.cvedetails.com/cve/CVE-2019-14287/)
+
+[^2]:[Sudo Advisory: -1 UID Vulnerability](https://www.sudo.ws/security/advisories/minus_1_uid/#:~:text=This%20vulnerability%20has%20been%20assigned%20CVE-2019-14287%20in%20the%20Common)
+
+[^3]:[NVD Impact Score for CVE-2019-14287](https://nvd.nist.gov/vuln/detail/CVE-2019-14287)
+
+[^4]:[ Apple Researcher Finds Huge Flaw in Linux Sudo Command - Tom's Hardware](https://www.tomshardware.com/news/apple-researcher-finds-huge-flaw-in-linux-sudo-command)
