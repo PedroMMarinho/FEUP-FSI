@@ -3,7 +3,7 @@
 
 ## Identificação
 
-- **Vulnerabilidade**: CVE-2019-14287 é uma falha no comando sudo que dá acesso priveligiado a utilizadores indevidos.
+- **Vulnerabilidade**: CVE-2019-14287 é uma falha no comando sudo que dá acesso priveligiado a utilizadores indevidos.[^1]
 
 - **Sistemas Afetados**: Sistemas baseados em Linux/Unix com versões anteriores à 1.8.28.
 
@@ -32,3 +32,7 @@
 - **Potencial de Danos**: Esta é uma vulnerabilidade que apresenta um elevado risco para qualquer sistema afetado.
 
 - **Possíveis Danos**: Alguns possíveis danos são o comprometimento de dados confidenciais, integridade do sistema e manipulação de registos dificultando a deteção de atividades maliciosas. 
+
+## Referências
+
+[^1]:[CVE-2019-14287 - CVEdetails](https://www.cvedetails.com/cve/CVE-2019-14287/)
