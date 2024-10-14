@@ -26,7 +26,7 @@
 
 ## Escolha da Vulnerabilidade
 
-- **Identificação de CVE's**: Durante esta pesquisa estavamos indecisos entre dois CVE's, selecionamos o CVE-2022-21661, que resulta de uma gestão inadequada de consultas em WP_Query, o que pode permitir uma SQL injection através de plugins ou temas no WordPress. Para além deste, selecionamos o CVE-2023-2732, que permite a atacantes não autenticados fazer login como qualquer utilizador, inclusive administradores, devido à verificação insuficiente no pedido REST de adição de listagem no plugin MStore API.
+- **Identificação de CVE's**: Durante esta pesquisa estavamos indecisos entre dois CVE's, selecionamos o CVE-2022-21661[^1], que resulta de uma gestão inadequada de consultas em WP_Query, o que pode permitir uma SQL injection através de plugins ou temas no WordPress. Para além deste, selecionamos o CVE-2023-2732[^2], que permite a atacantes não autenticados fazer login como qualquer utilizador, inclusive administradores, devido à verificação insuficiente no pedido REST de adição de listagem no plugin MStore API.
 
 <details>
   <summary><i>Spoiler<i></summary>
@@ -60,4 +60,6 @@
 
 ## Referências
 
-[^1]: (nome do website)[website]
+[^1]:[CVE-2022-21661 NIST](https://nvd.nist.gov/vuln/detail/CVE-2022-21661)
+
+[^2]:[CVE-2023-2732 NIST](https://nvd.nist.gov/vuln/detail/CVE-2023-2732)
