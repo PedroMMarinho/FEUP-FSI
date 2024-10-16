@@ -1,7 +1,7 @@
 
 # Trabalho realizado na Semana #4
 
-## Task 1: Manipulating Environment Variables
+## Tarefa 1: Manipulating Environment Variables
 
 - **Utilização de printenv/env**: Como podemos verificar ao utilizar o comando printenv ou env, de facto, mostra-nos no terminal todas as variáveis de ambiente.
 
@@ -17,27 +17,27 @@ seed@VM:~$ printenv test
 seed@VM:~$ 
 ```
 
-## Task 2: Passing Environment Variables from Parent Process to Child Process
+## Tarefa 2: Passing Environment Variables from Parent Process to Child Process
 
 - Após correr o código indicado verificamos que de facto não existia nenhuma diferença entre as variáveis de ambiente do processo filho e do processo pai. Desta forma podemos concluir que o processo filho, criado a partir da função `fork`, herda todas as variáveis de ambiente.
 
-## Task 3: Environment Variables and `execve()`
+## Tarefa 3: Environment Variables and `execve()`
 
 Respondendo à questão "As variáveis de ambiente são herdadas automaticamente pelo novo programa?"
 
-- Não. Quando corremos o programa com o terceiro parâmetro de `execve` (`envp`) como `NULL` o ambiente do novo programa vai ser vazio.
+- Não. Quando corremos o programa com o terceiro parâmetro de `execve` (`envp`) como `NULL` o ambiente (o conjunto de variáveis de ambiente ) do novo programa vai ser vazio.
 
-- Como foi esclarecido no `man execve`: envp é um array de strings, com o formato convencional **key=value**, que são passadas como um ambiente para o novo programa. O argv e envp arrays são obrigados a ter um apontador nulo no final do array.
+- Como é esclarecido no `man execve`: `envp` é um array de strings, com o formato convencional **key=value**, que são passadas como um ambiente para o novo programa. O `argv` e `envp` arrays são obrigados a ter um apontador nulo no final do array.
 
-- Então, as novas variáveis de ambiente do programa, têm de ser passadas no argumento `envp` do comando `execve`. Para alcançar isso, a utilização da variável `environ` é bastante conveniente visto que aponta para um array de apontadores de strings, denominado de "environment", que guarda o valor de cada uma das variáveis de ambiente.
+- Então, as novas variáveis de ambiente do programa têm de ser passadas no argumento `envp` do comando `execve`. Para tal, a utilização da variável `environ` é conveniente visto que aponta para um array de apontadores de strings, denominado de "environment", que guarda o valor de cada uma das variáveis de ambiente.
 
-- One of this variables changes, the `_` variable. This is normal because this variable holds the last argument of the previous command.  **READ**
+- Apesar disso, uma destas variáveis muda, a variável `_`. Isto é normal uma vez que esta guarda o último argumento do comando anteriormente executado
 
-## Task 4: Environment Variables and `system()`
+## Tarefa 4: Environment Variables and `system()`
 
-- Depois de corrermos o código fornecido verificamos que, através da comparação com as variáveis de ambiente antes da execução do mesmo, de facto estas se mantêm (apesar de não necessariamente com a mesma ordem)
+- Depois de corrermos o código fornecido verificamos que, através da comparação com as variáveis de ambiente antes da execução do mesmo, de facto, estas se mantêm (apesar de não necessariamente com a mesma ordem)
 
-## Task 5: Environment Variable and Set-UID Programs
+## Tarefa 5: Environment Variable and Set-UID Programs
 
 - Com a execução dos passos referidos conseguimos perceber que nem todas as variáveis de ambiente no processo pai são transferidas para o processo `SET-UID` filho.
 
@@ -45,7 +45,7 @@ Respondendo à questão "As variáveis de ambiente são herdadas automaticamente
 
 - Estranhamente `PATH` não apresenta o mesmo tipo de cuidado que `LD_LIBRARY_PATH` o que pode se mostrar uma vulnerabilidade.
 
-## Task 6: The PATH Environment Variable and Set-UID Programs
+## Tarefa 6: The PATH Environment Variable and Set-UID Programs
 
 ### Passo 1 - Criação do programa SET-UID
 
@@ -98,7 +98,7 @@ Respondendo à questão "As variáveis de ambiente são herdadas automaticamente
     <img src="resources/LOGBOOK4/execute-ls-malicioso.png" alt="exec ls malicioso"/>
 </div>
 
-# Task 8: Invoking External Programs Using `system()` versus `execve()`
+# Tarefa 8: Invoking External Programs Using `system()` versus `execve()`
 
 ## Primeiro Passo
 
