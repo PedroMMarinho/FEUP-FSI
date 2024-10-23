@@ -25,16 +25,15 @@ $ sudo ln -sf /bin/zsh /bin/sh
 
 ### Investigação
 
-Primeiramente criamos o ficheiro 
+Primeiramente criamos o ficheiro badfile, que será utilizado para guardar os conteúdos que causarão o buffer overflow ???
 
 ![Tarefa 3 create badfile](resources/LOGBOOK5/task3badfile.png)
 
-Compilar o código
-
+De seguida, compilamos o ficheiro stack-L1.c e executamos o gdb deste ficheiro.
 
 ![Tarefa 3 Compilação + gdb](resources/LOGBOOK5/task3Compilation.png)
 
-Recorrendo ao gdb, primeiramente, criamos um breakpoint na função bof de forma a que o programa pare nesta função, visto que é onde está presente o problema de buffer overflow. De seguida, anlisamos as posições em memória de `ebp` e do `buffer` e, por fim, calculamos a diferença entre estes, de forma a perceber o quanto distam.
+Recorrendo ao gdb, começamos por criar um breakpoint na função bof de forma a que o programa pare nesta função, visto que é onde está presente o problema de buffer overflow. De seguida, analisamos as posições em memória de `ebp` e do `buffer` e, por fim, calculamos a diferença entre estes, de forma a perceber o quanto distam.
 
 ![Tarefa 3 find addresses](resources/LOGBOOK5/task3findaddress.png)
 
@@ -79,9 +78,23 @@ with open('badfile', 'wb') as f:
   f.write(content)
 ```
 
+Para a criação do ataque tivemos de pensar em alguns valores, nomeadamente:
+
+- `shellcode`: Para este, usamos o valor previamente mostrado na ficha para um sistema de 32 bits, visto que `L`, determina o tipo de sistema e como tem valor 4, sabemos que estamos perante um sistema de 32 bits.
+-  `start`: o shellcode, o código a ser executado, foi colocado no final do payload a ser escrito. Optámos por fazer desta forma uma vez que, como o restante espaço do buffer será preenchido com `NOP` operators (exceto a parte com o return address), independentemente do local escrito no return address (considerando que este aponta para uma localização entre o return address e o final da payload) o shellcode seria executado. 
+
+- `ret`: Este valor foi definido, tendo em conta o valor do `&ebp` descoberto durante o debugging, ao qual somamos 200, de forma a apontar algures entre o return adress e o final do payload. 
+
+- `offset`: Neste caso, o valor escolhido é a diferença entre os espaços de memória do ínicio do buffer e o return address. Como a localização do return address é logo após o `ebp`, bastou adicionar o tamanho deste (4 bytes) ao seu offset do ínicio do buffer (obtido durante o debugging)
+
+
+
+
+Para chegar a este valores recorremos ao livro referido na secção Reading and videos 
+
 ![Stack GDB](resources/LOGBOOK5/stackGDB.png)
 ![Stack normal](resources/LOGBOOK5/stackNormal.png)
 ![Stack afetada](resources/LOGBOOK5/stackafetada.png)
 
-
+Após a criação do ficheiro exploit exxecutámo-lo de forma criar os conteúdos dentro do ficheiro badfile
 
