@@ -3,8 +3,8 @@
 ## Questão 1
 ### Configuração básica
 
-- Como sugerido executámos os comandos que nos foram sugeridos, de forma a criar um ambiente onde a execução do ataque seja mais fácil.
-O primeiro a ser executado, tem como objetivo retirar as contramedidas da alocação de espaço aleatório das posições iniciais dos registos da stack e da heap. Já o segundo, serve para dar _bypass_ às contramedidas de Dash ao ligarmos a nossa shell à outra shell `/bin/zsh`.
+- Como sugerido, executámos os seguintes comandos, de forma a criar um ambiente onde a execução do ataque seja mais fácil.
+O primeiro a ser executado tem como objetivo retirar as contramedidas de alocação de espaço aleatório das posições iniciais dos registos da stack e da heap. Já o segundo, serve para dar _bypass_ às contramedidas de Dash ao ligarmos a nossa shell à outra shell `/bin/zsh`.
 
 ```bash
 $ sudo sysctl -w kernel.randomize_va_space=0
@@ -21,7 +21,7 @@ $ sudo ln -sf /bin/zsh /bin/sh
 
 - Nesta segunda tarefa, entendemos que o programa apresentado em stack.c é de facto, vulnerável a ataques buffer overflow, uma vez que neste programa a função `bof` pretende copiar através do comando `strcpy`,que não verifica os limites do tamanho do buffer, o argumento `str`, sendo este um array com um máximo de 517 caracteres, para a variável `buffer`, tendo o espaço de 100 caracteres, lido apartir de um ficheiro `badfile`. Caso a váriavel `str` tenha caracteres a mais que `buffer`, ocorre o erro de Segmentation Fault.
 
-- Num momento posterior, assim como pedido, alteramos o valor `L1` do Makefile, para 116 (100+8*G).
+- Posteriormente, assim como pedido, alteramos o valor `L1` do Makefile, para 116 (100+8*G).
  
 ![Task2_MakefileChanges](resources/LOGBOOK5/task2Makefile.png)
 
@@ -93,7 +93,7 @@ Para a criação do ataque tivemos de pensar em alguns valores, nomeadamente:
 
 - `start`: Foi escolhido o valor `517 - len(shellcode)`, de forma a que o código a ser executado, neste caso o shellcode, ficasse inserido no final da payload. Optámos por fazer desta forma uma vez que, como o restante espaço do buffer será preenchido com operadores `NOP`, exceto o return address, independentemente do local para qual este aponta no buffer (considerando que este aponta para uma localização entre o return address e o final da payload) o shellcode seria executado. 
 
-- `ret`: Este valor foi definido, tendo em conta o valor do `ebp` descoberto durante o debugging, ao qual somamos 200, de forma a apontar algures entre o return adress e o final do payload. O valor não é trivial uma vez que a posição na memória verdadeira do `ebp` é superior à de quando o programa é debugged, podiam no entanto ser utilizados outros valores.
+- `ret`: Este valor foi definido, tendo em conta o valor do `ebp` descoberto durante o debugging, ao qual somamos 200, de forma a apontar algures entre o return adress e o final do payload. O valor não é trivial uma vez que a posição na memória verdadeira do `ebp` é superior à de quando o programa é executado com `gdb`, podiam no entanto ser utilizados outros valores.
 
 
 - `offset`: Neste caso, o valor escolhido é a diferença entre os espaços de memória do ínicio do buffer e o return address. Como a localização do return address é logo após o `ebp`, bastou adicionar o tamanho deste (4 bytes) ao seu offset do ínicio do buffer (obtido durante o debugging).
@@ -118,9 +118,7 @@ Programa executado dentro do GDB. Foi neste estado que obtivemos os valores de m
 
 Programa executado na shell, antes do buffer overflow. 
 
-Como é possível reparar, as posições de memória obtidas anteriormente já não representam a posição real das estruturas.
-
-Foi neste estado que obtivemos os valores de memória para o `buffer` e o `ebp`
+Como é possível reparar, as posições de memória obtidas anteriormente já não representam a posição real das estruturas. 
 
 <div style="width:350px; display:block; margin-left:auto; margin-right:auto ">
     <img src="resources/LOGBOOK5/stackNormal.png" alt="Stack normal" />
