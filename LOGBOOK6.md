@@ -52,7 +52,7 @@ Resultado da execução do comando:
 
 ### Tarefa 2 : Printing Out the Server Program’s Memory
 
-#### A : Stack Data (TODO Investigue o CWE-134)
+#### A : Stack Data
 
 - Para encontrar o valor que colocámos no buffer, usamos o _format specifier_ `%x` para imprimir a stack e procurar esse valor. Basicamente, executamos o nosso exploit, que cria um ficheiro `badfile` e vamos ajustando o número de `%x` ao longo de várias execuções do programa, até encontrarmos o valor procurado na stack.
 
@@ -109,3 +109,15 @@ _Output_ do programa:
 ![specific target output](resources/LOGBOOK6/specific_target_output.gif)
 
 Como podemos ver, vamos executando vários `%x` até chegarmos à penúltima posição antes do `target address` e fazemos o **ajuste** , ou seja, subtraímos o número de caracteres que seriam imprimidos até a posição 62 pelo valor alvo, neste caso 0x5000, obtendo assim o resto dos caracteres a serem impressos antes de mudar o valor do `target`.
+
+## Questão 2
+
+Respondendo à **primeira pergunta**: Não, não é necessário que a format string esteja alocada na stack para que a vulnerabilidade exista em CWE-134.
+
+**Explicação**: O CWE-134 é um problema de segurança relacionado à utilização de _format strings_ não controladas. Como o código fornecido, permite-nos inserir uma _format string_ diretamente, através do printf(`badfile`), o ataque pode ocorrer independentemente de onde essa string está alocada. O importante é que a função printf leia e interprete os especificadores de formato (`%x`, `%s`, `%n`, etc.), sem validar a entrada.
+
+A vantagem de as _format strings_ estarem alocadas na stack, apenas facilita o acesso e manipulação da memória que está mais próxima.
+
+Respondendo à **segunda pergunta**: Das tarefas concretizadas, as Tarefas **3.A**, **3.B**, **3.C** são as que teriam uma grande taxa de insucesso sendo praticamente impossíveis de realizar.
+
+**Explicação**: O sucesso de ataques de escrita, como em Tasks **3.A**, **3.B** e **3.C**, depende do cálculo preciso da posição da _format string_ em relação às variáveis-alvo na memória. Sendo assim, quando guardamos uma _format string_ na heap, comparadamente à stack o _layout_ de memória é menos previsível e mais dinâmico.Como tal, torna-se **bastante díficil** calcular a quantidade exata de caracteres necessária para atingir a posição de memória desejada e não é garantido que possamos aceder a esse local de memória.
