@@ -87,7 +87,7 @@ window.onload = function () {
     //Construct the HTTP request to add Samy as a friend.
 
     var friendId = "59"  // Id of the friend to add
-    var sendurl= "http://www.seed-server.com/action/friends/add?friend=" + friendId + ts + token + ts + token; 
+    var sendurl= "http://www.seed-server.com/action/friends/add?friend=" + friendId + ts + token; 
 
     //Create and send Ajax request to add friend
     Ajax=new XMLHttpRequest();
@@ -101,3 +101,30 @@ Para saber o id do utilizador `samy`, apenas precisamos de inspecionar o perfil 
 ![user id](resources/LOGBOOK7/user_id.png)
 
 Verificamos assim que o seu id é `59`.
+
+
+Como tal, agora apenas precisamos de adicionar o script no perfil do `samy`, neste caso na secção `About Me`,  e qualquer utilizador que vá ao perfil dele ficará automaticamente amigo dele.
+
+
+Demonstração do script:
+
+![automatic friend gif](resources/LOGBOOK7/automatic_friend.gif)
+
+Como podemos verificar, o utilizador `boby` fica amigo do `samy` mal entre no perfil dele, sem sequer adicioná-lo. 
+
+- **Pergunta 1**: Explica o propósito das linhas ➀ e ➁, e o porquê de serem necessárias?
+
+Estas linhas são necessárias, visto que, `token` refere-se ao token de segurança verdadeiro gerado pelo sistema, que garante a requesição legítima do request,sendo este único para cada sessão. Para além disso, `ts` refere-se ao momento em que o token foi gerado com o objectivo de confirmar que houve um _request_ recentemente. 
+Sendo assim, para criar um request válido precisamos destas duas componentes no nosso _url_.
+
+- **Pergunta 2**: Se a aplicação Elgg apenas fornecer o modo de Editor para o campo _About Me_, ou seja, se não for possível alternar para o modo de Texto, ainda seria possível lançar um ataque com sucesso? 
+
+Muito dificilmente conseguiriamos um ataque bem sucedido, visto que, o mais provável é o modo de Editor "sanitizar" o conteúdo, de forma a impedir a injeção de scripts maliciosos.
+
+
+## Questão 2
+
+- **Há várias modalidades de ataques XSS (Reflected, Stored ou DOM). Em qual/quais pode enquadrar este ataque e porquê ?**
+
+O ataque é `Stored XSS`, pois o script malicioso é armazenado no servidor (no campo do utilizador) e executado automaticamente quando a página do perfil dele é carregada. Não é `Reflected XSS`, pois o script não é refletido na resposta imediata do servidor, e não é `DOM-based XSS`, pois o código não é manipulado dinamicamente no DOM após a interação do utilizador.
+
