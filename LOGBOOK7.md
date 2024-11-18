@@ -70,6 +70,7 @@ Como podemos verificar, conseguimos roubar as cookies do **boby**, sendo estas `
 Neste caso, inspecionamos o _request_ feito após o envio de um pedido de amizade.
 
 _URL_ Pedido de amizade:
+
 ![steal cookies gif](resources/LOGBOOK7/friend_request_url.gif)
 
 Conseguimos obter o url `http://www.seed-server.com/action/friends/add?friend=58&__elgg_ts=1731067737&__elgg_token=_cVl2t--8uKfxwjsAh7Nog&__elgg_ts=1731067737&__elgg_token=_cVl2t--8uKfxwjsAh7Nog`.
