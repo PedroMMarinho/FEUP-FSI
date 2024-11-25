@@ -1,9 +1,9 @@
 
 Breve descrição do grupo
 
-* Turno: [L]XX
-* Grupo: YY
+* Turno: L02
+* Grupo: 02
 * Alunos:
-    - Aluno1 upZZZZZ 
-    - Aluno2 upZZZZZ
-    - Aluno3 upZZZZZ
+    - Eduardo Castro Portugal Ferreira up202206628
+    - Pedro Miguel Silva Roleira Marinho up202206854
+    - Xavier dos Santos Portugal Martins up202206632
