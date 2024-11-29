@@ -34,7 +34,7 @@ Execução do comando `tr [:upper:] [:lower:] < article.txt > lowercase.txt` e o
 
 ![lowercase.txt](resources/LOGBOOK9/lowercase.png)
 
-Para além disso executamos o comando `tr -cd ’[a-z][\n][:space:]’ < lowercase.txt > plaintext.txt`, que vai gerar um novo ficheiro com todos os números e pontuações (!,´, + e etc ...).
+Para além disso executamos o comando `tr -cd ’[a-z][\n][:space:]’ < lowercase.txt > plaintext.txt`, que vai gerar um novo ficheiro sem nenhum número ou pontuação (!,´, + e etc ...).
 
 Ficheiro atualizado:
 
