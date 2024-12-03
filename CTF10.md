@@ -14,9 +14,9 @@ O desafio de CTF desta semana consiste em aplicar os conceitos sobre esquemas de
 
 ## Execução da decifração
 
-Passando agora para a parte prática, primeiramente vamos executar o script, [freq.py](resources/CTF9/freq.py) , que vai revelar as frequências dos símbolos, de modo a tentar perceber a letra por de trás do símbolo.
+Passando agora para a parte prática, primeiramente vamos executar o script, [freq.py](resources/CTF10/freq.py) , que vai revelar as frequências dos símbolos, de modo a tentar perceber a letra por de trás do símbolo.
 
-_N-grams_ obtidos: [frequência 1 letra](resources/CTF9/1-gram-(top-20).txt), [frequência 2 letra](resources/CTF9/2-gram-(top-20).txt), [frequência 3 letra](resources/CTF9/3-gram-(top-20).txt) .
+_N-grams_ obtidos: [frequência 1 letra](resources/CTF10/1-gram-(top-20).txt), [frequência 2 letra](resources/CTF10/2-gram-(top-20).txt), [frequência 3 letra](resources/CTF10/3-gram-(top-20).txt).
 
 Agora a ideia será procurar por sequências que se repetem de forma a objetivar e solidificar a certeza da escolha da letra correspondente ao símbolo.
 
@@ -28,7 +28,7 @@ Chave de mapeamento: `zsparnbxiodmltcegvhjuf`
 
 Comando para desencriptação: `sed 'y/[~(*&.!,;=-)]%|#:+?@>_/zsparnbxiodmltcegvhjuf/' L02G02.cph > output.txt`
 
-Resultado final: [output.txt](resources/CTF9/output.txt) 
+Resultado final: [output.txt](resources/CTF10/output.txt) 
 
 Como tal conseguimos com sucesso obter a `flag{amxgvrmremgszthb}`.
 
