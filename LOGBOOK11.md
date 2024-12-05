@@ -146,7 +146,66 @@ Podemos ver que temos o que queriamos:
 
 ## Tarefa 4
 
+Após sabermos as bases de como criar um Certificado de Autoridade, nesta tarefa iremos dar _setup_ do site `www.bank32.com` através de um server `Apache`.
+
+Para tal, precisamos de garantir que o ficheiro `Dockerfile` está corretamente configurado, assim como, `bank32_apache_ssl.conf` e, a informação do certificado está na diretoria correta.
+
+![diretoriaKey&Crt](resources/LOGBOOK11/diretoriaKey&Crt.png)
+
+![dockerfile](resources/LOGBOOK11/dockerfile.png)
+
+![bankConfig](resources/LOGBOOK11/bankConfig.png)
+
+Como podemos observar, neste lab, todas as configurações já veem corretamente configuradas.
+
+Sendo assim, agora vamos abrir o container com o comando `dcup` e ,seguidamente, acedemos à shell do container aberto através dos comandos `dockps e docksh <id>`, e por fim corremos o comando `service apache2 start`, para abrir o servidor:
+
+![apacheStart](resources/LOGBOOK11/apacheStart.png)
+
+Podemos verificar que quando abrimos o servidor com o link http://www.bank32.com, temos uma tela vermelha.
+
+![httpBank](resources/LOGBOOK11/httpBank.png)
+
+E quando abrimos o servidor com o link https://www.bank32.com, temos uma tela verde.
+
+![httpsBank](resources/LOGBOOK11/httpsBank.png)
+
+Este comportamento é normal, uma vez que foi designado no ficheiro de configuração do servidor. No entanto, ao navegar pelo site via HTTPS, o navegador alerta-nos de que a ligação ao site não é segura.
+
+![notSecure](resources/LOGBOOK11/notSecure.png)
+
+Para resolver este problema, temos de ir às `preferences` do firefox e ir à secção dos certificados. Aí, iremos adicionar o ficheiro `modelCA.crt` visto que é a chave pública que "assinou" o `bank32.crt`.
+
+![modelCA](resources/LOGBOOK11/modelCA.png)
+
+Após dar refresh ao firefox, a nossa conexão será totalmente segura:
+
+![bank32CA](resources/LOGBOOK11/bank32CA.png)
+
+
 ## Tarefa 5
+
+Nesta tarefa, vamos fazer utilizar o nosso servidor a partir do acesso do site `www.example.com`. Quando um utilizador visitar o site `www.example.com`, ele será redirecionado para o nosso `www.example.com`, que está alojado num IP diferente do original. 
+
+Sendo assim, o primeiro passo será adicionar uma nova entrada no VirtualHost ao ficheiro /etc/apache2/sites-available/bank32_apache_ssl.conf:
+
+```
+<VirtualHost *:443>
+    DocumentRoot /var/www/bank32
+    ServerName www.example.com
+    DirectoryIndex index.html
+    SSLEngine On
+    SSLCertificateFile /certs/bank32.crt
+    SSLCertificateKeyFile /certs/bank32.key
+</VirtualHost>
+```
+
+De seguida adicionamos o DNS do servidor no ficheiro `/etc/hosts`:
+`10.9.0.80    www.example.com`
+
+Ao acedermos ao site `www.example.com`, como estamos a usar o mesmo certificado que em `www.bank32.com`, o navegador avisa-nos de que este certificado não é para `www.example.com`, comparando o URL visitado com o Common Name apresentado no certificado. Podemos ver esse aviso na imagem seguinte:
+
+![exampleSite](resources/LOGBOOK11/exampleSite.png)
 
 ## Tarefa 6
 
