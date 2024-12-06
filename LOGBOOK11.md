@@ -195,8 +195,8 @@ Sendo assim, o primeiro passo será adicionar uma nova entrada no VirtualHost ao
     ServerName www.example.com
     DirectoryIndex index.html
     SSLEngine On
-    SSLCertificateFile /certs/bank32.crt
-    SSLCertificateKeyFile /certs/bank32.key
+    SSLCertificateFile /certs/server.crt
+    SSLCertificateKeyFile /certs/server.key
 </VirtualHost>
 ```
 
@@ -209,25 +209,38 @@ Ao acedermos ao site `www.example.com`, como estamos a usar o mesmo certificado 
 
 ## Tarefa 6
 
-Nesta tarefa, vamos assumir que a CA raiz criada na Tarefa 1 foi comprometida por um atacante, e a sua chave privada foi roubada. Com isso, o nós conseguimos gerar qualquer certificado arbitrário usando a chave privada dessa CA. 
+Após termos criado o nosso _fake website_ `www.example.com`, vamos tentar fazer com que o aviso, de o site ser de risco, seja omitido através de um CA fabricado por nós, no sentido de o utilizador não suspeite que está a aceder um website de outra origem.
+Sendo assim, vamos criar um novo certificado para o nosso website malicioso.
 
-Tendo em atenção a tarefa 5, vamos "substituir" o nosso servidor pelo `www.example.com`, adicionando à entrada
-
-
-Sendo assim, primeiramente havemos de criar um novo certificado através do comando:
-
+Para tal corremos o comando para criar o _request_ do certificado:
 ```bash
-openssl req -newkey rsa:2048 -sha256  \
--keyout newca.key -out newca.csr  \
--subj "/CN=www.website.com/O=website CA./C=US" \
+openssl req -newkey rsa:2048 -sha256 \
+-keyout malicious.key -out malicious.csr \
+-subj "/CN=www.example.com/O=Example Inc./C=US" \
 -passout pass:dees
 ```
 
-Agora vamos criar um certificado para o servidor.
+E geramo-lo:
 
 ```bash
 openssl ca -config openssl.cnf -policy policy_anything \
 -md sha256 -days 3650 \
--in newca.csr -out newca.crt -batch \
+-in malicious.csr -out malicious.crt -batch \
 -cert ca.crt -keyfile ca.key
 ```
+
+Após gerarmos os ficheiros `malicious.csr` e `malicious.key` para o `www.example.com`, guardamo-los na diretoria `certs`.
+
+
+Seguidamente, mudamos a entrada do `www.example.com` no _VirtualHost_, no ficheiro `/etc/apache2/sites-available/bank32_apache_ssl.conf` para:
+
+
+![newExampleEntry](resources/LOGBOOK11/newExampleEntry.png)
+
+Como podemos ver conseguimos com que o nosso servidor `www.example.com`, fica-se seguro.
+
+![certificateHelloWorld](resources/LOGBOOK11/certificateHelloWorld.png)
+
+**Apesar de assumirmos que estas autoridades de certificação são resistentes a ataques, realisticamente, devemos considerar sempre a possibilidade de serem comprometidas. Indique um mecanismo que permita reagir a essa ocorrência e impedir ataques, e que medidas um adversário pode tomar para evitar que esse mecanismo o impeça de tirar partido de uma autoridade de certificação comprometida.**:
+
+Para mitigar os riscos de uma `autoridade de certificação` (CA) comprometida, utilizam-se mecanismos como listas de revogação de certificados (CRLs), o protocolo `OCSP` para verificar a validade deste em tempo real, certificados de transparência para registar publicamente todos os certificados emitidos e `pinning` de certificados para restringir quais são aceites em cituações críticas. Contudo, adversários podem bloquear servidores `OCSP`, explorar listas desatualizadas e manipular logs de transparência.
