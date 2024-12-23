@@ -316,9 +316,73 @@ Ao correr o script obtemos o seguinte:
 
 ![traceroute](resources/LOGBOOK13/traceroute.png)
 
-Como podemos verificar no output do `traceroute.py`, obtemos a distancia de routers sendo ela 4.
+Como podemos verificar no output do `traceroute.py`, obtemos a distância de routers sendo ela de 4.
 
 
 # Tarefa 1.4
 
+O objetivo desta tarefa é implementar um programa que combine sniffing e spoofing para monitorizar pedidos ICMP echo request (ping) numa rede local (LAN) e enviar respostas ICMP echo reply forjadas, fazendo com que o comando `ping` receba sempre uma resposta, independentemente de o destino estar ativo ou não.
+
+Sendo assim criamos o script de python `snif_spoof.py` para executar esta tarefa. 
+
+```python
+#!/usr/bin/env python3
+from scapy.all import *
+
+def spoof_pkt(packet):
+    if ICMP in packet and  packet[ICMP].type == 8:  # Check for ICMP echo
+        print(f"[*] Sniffed ICMP echo request:")
+        print(f"    Source IP: {packet[IP].src}")
+        print(f"    Destination IP: {packet[IP].dst}")
+        print(f"    ICMP ID: {packet[ICMP].id}, Sequence: {packet[ICMP].seq}")
+
+        # Create an ICMP echo reply packet
+        ip_layer = IP(src=packet[IP].dst, dst=packet[IP].src)
+        icmp_layer = ICMP(type=0, id=packet[ICMP].id, seq=packet[ICMP].seq)
+        spoofed_packet = ip_layer / icmp_layer / packet[ICMP].payload
+
+        # Send the spoofed packet
+        send(spoofed_packet, verbose=False)
+        print(f"[+] Sent spoofed ICMP echo reply:")
+        print(f"    Spoofed Source IP: {spoofed_packet[IP].src}")
+        print(f"    Spoofed Destination IP: {spoofed_packet[IP].dst}")
+        print(f"    ICMP ID: {spoofed_packet[ICMP].id}, Sequence: {spoofed_packet[ICMP].seq}\n")
+
+def main():
+    print("Starting ICMP sniff-and-spoof...")
+    filtro1 = 'icmp and host 1.2.3.4'
+    filtro2 = 'icmp and host 10.9.0.99'
+    filtro3 = 'icmp and host 8.8.8.8'
+    # Replace n with the filter being used
+    pkt = sniff(iface='br-4b9a8e81920d',filter=filtro<n>, prn=spoof_pkt)
+
+if __name__ == "__main__":
+    main()
+```
+
+Para o `filtro1` ao fazermos ping ao IP `1.2.3.4` a partir do hostB, por exemplo, conseguimos verificar o seguinte:
+
+![pingF1](resources/LOGBOOK13/pingF1.png)
+
+![filtro1](resources/LOGBOOK13/filtro1.png)
+
+Ao fazermos ping de um host não existente na _Internet_ fomos capazes de enganar o comando ping, ao simular a existência deste host. A resposta ICMP echo reply forjada imita uma resposta legítima, dando a ilusão de que o endereço `IP` alvo está ativo.
+
+
+Para o `filtro2` ao fazermos ping ao IP `10.9.0.99` a partir do hostB, por exemplo, conseguimos verificar o seguinte:
+
+![filtro2](resources/LOGBOOK13/filtro2.png)
+
+![failedSnif](resources/LOGBOOK13/failedSnif.png)
+
+Quando realizamos um ping para `10.9.0.99`, que corresponde a um host inexistente na LAN, o pedido ICMP não é enviado porque a máquina de origem, antes de tudo, tenta resolver o endereço `MAC` do destino através de um pedido `ARP`. Como o `IP 10.9.0.99` não está associado a nenhum dispositivo e pode estar fora do intervalo permitido pela máscara de rede (limite de broadcast), o ARP falha, e o pacote ICMP nunca é gerado. Este comportamento é esperado e explica porque o _sniffer_ não captura nada neste caso, já que nenhum pacote ICMP é enviado para a rede.
+
+Para o `filtro3` ao fazermos ping ao IP `8.8.8.8` a partir do hostB, por exemplo, conseguimos verificar o seguinte:
+
+![pingF3](resources/LOGBOOK13/pingF3.png)
+
+
+![filtro3](resources/LOGBOOK13/filtro3.png)
+
+Para o IP válido `8.8.8.8` (um servidor DNS do Google), o ping normalmente receberia uma resposta legítima. No entanto, como o nosso script ainda vai enviar uma resposta falsificada, independentemente de o host estar ativo ou não. A diferença aqui é que, enquanto o script ainda envia uma resposta de spoofing, a resposta real do servidor também será recebida, mostrando duas respostas para o mesmo pacote: uma verdadeira e uma falsificada.
 
