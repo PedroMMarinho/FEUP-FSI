@@ -276,3 +276,49 @@ Através do wireshark, conseguimos verificar que conseguimos enviar com sucesso 
 
 
 # Tarefa 1.3
+
+O objetivo desta tarefa é usar o Scapy para estimar a distância, em termos de routers, entre a sua VM e um destino. A ideia é enviar pacotes com o campo Time-To-Live (TTL) começando em 1, aumentando a cada envio. Cada router que descarta o pacote nos envia uma mensagem ICMP indicando o excesso de TTL, permitindo-nos identificar os routers até o destino.
+
+Para tal criamos o script `traceroute.py`:
+
+```python
+#!/usr/bin/env python3
+from scapy.all import *
+
+def traceroute(destination):
+    ttl = 1
+    while True:
+        # Create the IP packet with increasing TTL
+        pkt = IP(dst=destination, ttl=ttl) / ICMP()
+
+        # Send the packet and wait for the response
+        reply = sr1(pkt, timeout=1, verbose=0)
+
+        # If no reply, break the loop (destination unreachable)
+        if reply is None:
+            print(f"TTL {ttl}: No reply")
+            break
+
+        if reply.haslayer(ICMP):
+            print(f"TTL {ttl}: Router at {reply.src}")
+
+        if reply.src == destination:
+            print(f"TTL {ttl}: Reached destination!")
+            break
+
+        ttl += 1
+
+destination = "8.8.8.8"
+traceroute(destination)
+
+```
+Ao correr o script obtemos o seguinte:
+
+![traceroute](resources/LOGBOOK13/traceroute.png)
+
+Como podemos verificar no output do `traceroute.py`, obtemos a distancia de routers sendo ela 4.
+
+
+# Tarefa 1.4
+
+
