@@ -1,5 +1,5 @@
-# FEUP-PFL 2024/2025
-Projects in C for the RCOM curricular unit.
+# FEUP-FSI 2024/2025
+Seed-Labs documentation + weekly CTF for the FSI curricular unit.
 ## Project Infos
 - Date: 3rd Year, 1st Semester
 - Course: Fundamentos de Segurança Informática | Computer Security Foundations
